@@ -1,5 +1,9 @@
 import { Model } from 'mongoose';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateOrderDto } from '../dto/create-order.dto';
 import { OrderDocument, Order } from '../schemas/order.schema';
@@ -28,6 +32,9 @@ export class OrdersService {
     return order;
   }
   async updateOrderState(orderId: string, state: ORDER_STATE): Promise<Order> {
+    if (state === ORDER_STATE.CANCELLED || state === ORDER_STATE.DELIVERED) {
+      throw new BadRequestException('Can not update order');
+    }
     return this.orderModel.findOneAndUpdate(
       { orderId },
       { $set: { state: state } },
