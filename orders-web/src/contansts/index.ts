@@ -1,0 +1,7 @@
+export enum ORDER_STATE {
+  CREATED,
+  CONFIRMED,
+  DELIVERED,
+  CANCELLED,
+}
+export const DELAY_TIME = 15000;

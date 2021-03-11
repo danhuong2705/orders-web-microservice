@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<OrderItem /> should render correctly 1`] = `
+<div
+  class="css-1c13cqv"
+>
+  <div
+    class="css-1c13cqv"
+  >
+    <img
+      alt="product-image"
+      class="css-vdzwhy"
+    />
+    <div
+      class="css-tubh1u"
+    />
+  </div>
+  <div
+    class="css-ov1ktg"
+  >
+    <div
+      class="css-wi4tla"
+    >
+      <div
+        class="css-17qyic4"
+      />
+    </div>
+    <div
+      class="css-0"
+    >
+      NaN ₫
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<OrderItem /> should render correctly 1`] = `
+<div
+  class="css-1c13cqv"
+>
+  <div
+    class="css-1c13cqv"
+  >
+    <img
+      alt="product-image"
+      class="css-vdzwhy"
+      src=""
+    />
+    <div
+      class="css-tubh1u"
+    >
+      121323
+    </div>
+  </div>
+  <div
+    class="css-ov1ktg"
+  >
+    <div
+      class="css-wi4tla"
+    >
+      <button
+        class="css-tg6web"
+      >
+        +
+      </button>
+      <div
+        class="css-17qyic4"
+      >
+        1
+      </div>
+      <button
+        class="css-tg6web"
+      >
+        -
+      </button>
+    </div>
+    <div
+      class="css-0"
+    >
+      20.000 ₫
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<OrderLine /> should render correctly 1`] = `
+<div
+  class="css-1c13cqv"
+>
+  <div
+    class="css-1c13cqv"
+  >
+    <img
+      alt="product-image"
+      class="css-vdzwhy"
+      src=""
+    />
+    <div
+      class="css-tubh1u"
+    >
+      121323
+    </div>
+  </div>
+  <div
+    class="css-ov1ktg"
+  >
+    <div
+      class="css-wi4tla"
+    >
+      <button
+        class="css-tg6web"
+      >
+        +
+      </button>
+      <div
+        class="css-17qyic4"
+      >
+        1
+      </div>
+      <button
+        class="css-tg6web"
+      >
+        -
+      </button>
+    </div>
+    <div
+      class="css-0"
+    >
+      20.000 ₫
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Header /> should render correctly 1`] = `
+<div
+  class="css-vlq267"
+>
+  <div
+    class="css-1aya70s"
+  >
+    <div>
+      <a
+        href="/"
+      >
+        <img
+          alt="logo"
+          class="css-13dskwy"
+          src="logo.svg"
+        />
+      </a>
+    </div>
+    <div
+      class="css-ov1ktg"
+    >
+      <a
+        class="css-15tgtd"
+        href="/cart"
+      >
+        <img
+          alt="cart-icon"
+          class="css-1acylx9"
+          src="cart.svg"
+        />
+      </a>
+      <a
+        class="css-15tgtd"
+        href="/order-list"
+      >
+        <img
+          alt="user-icon"
+          class="css-1acylx9"
+          src="user.svg"
+        />
+      </a>
+    </div>
+  </div>
+</div>
+`;

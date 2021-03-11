@@ -1,0 +1,67 @@
+version: "3.3"
+volumes:
+  mongodb_master_data: {}
+services:
+  gateway:
+    build: ./gateway
+    container_name: gateway
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - payment-service
+      - orders-service
+    env_file:
+      - .env
+  redis:
+    image: "bitnami/redis:latest"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+
+  payment-service:
+    build: ./payment-service
+    container_name: payment-service
+    depends_on:
+      - orders-service
+    hostname: ${PAYMENT_SERVICE_HOST}
+    ports:
+      - "9001:9001"
+
+  orders-service:
+    build: ./orders-service
+    container_name: orders-service
+    depends_on:
+      - mongodb
+      - redis
+    hostname: ${ORDERS_SERVICE_HOST}
+    restart: always
+    ports:
+      - "9000:9000"
+    environment:
+      - DB_URL=mongodb://db_mongo
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    env_file:
+      - .env
+
+  orders-web:
+    build:
+      context: ./orders-web
+      args:
+        - REACT_APP_BASE_API_URL=${REACT_APP_BASE_API_URL}
+    container_name: orders-web
+    ports:
+      - "3000:80"
+
+  mongodb:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: orders
+    volumes:
+      - "mongodb_master_data:/data/db"
+    ports:
+      - 27017:27017

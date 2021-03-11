@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Card /> should render correctly 1`] = `
+<div
+  class="css-f6s1up"
+>
+  <img
+    class="css-1i5qv4l"
+    src=""
+  />
+  <div
+    class="css-4db4lp"
+  >
+    121323
+  </div>
+  <div
+    class="css-16w20my"
+  >
+    20.000 ₫
+  </div>
+  <button
+    class="css-hwo0d0"
+  >
+    +
+  </button>
+</div>
+`;
