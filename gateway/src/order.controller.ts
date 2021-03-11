@@ -11,6 +11,7 @@ import {
 import { ClientProxy } from '@nestjs/microservices';
 import { ORDER_STATE, PAYMENT_STATE } from './constants';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { UpdateOrderDto } from './dto/update-order.dto';
 import {
   IOrderListResponse,
   IOrderResponse,
@@ -56,11 +57,11 @@ export class OrderController {
   }
   @Put(':orderId')
   async updateOrderState(
-    @Param() params,
-    @Body() body,
+    @Param('orderId') orderId: string,
+    @Body() updateOrderDto: UpdateOrderDto,
   ): Promise<IOrderResponse> {
     const updatedOrder: IOrderResponse = await this.ordersClient
-      .send('update-order', { orderId: params.orderId, state: body.state })
+      .send('update-order', { orderId: orderId, state: updateOrderDto.state })
       .toPromise();
     return {
       status: updatedOrder.status,
@@ -70,9 +71,11 @@ export class OrderController {
     };
   }
   @Get(':orderId')
-  async getOrderDetail(@Param() params): Promise<IOrderResponse> {
+  async getOrderDetail(
+    @Param('orderId') orderId: string,
+  ): Promise<IOrderResponse> {
     const orderDetail: IOrderResponse = await this.ordersClient
-      .send('order-detail', params.orderId)
+      .send('order-detail', orderId)
       .toPromise();
     return {
       status: orderDetail.status,

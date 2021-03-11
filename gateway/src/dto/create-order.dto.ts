@@ -1,25 +1,27 @@
-import { IsString, IsInt, IsArray, ValidateNested } from 'class-validator';
-import { Type } from 'class-transformer';
-import { IOrderItem } from '../interfaces/orderItem.interface';
-import { OrderItem } from './order-item.dto';
+import { IsString, IsInt } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IOrderItem } from './order-item.dto';
 export class CreateOrderDto {
+  @ApiProperty()
   @IsString()
   orderId: string;
 
+  @ApiProperty()
   @IsInt()
   userId: number;
 
+  @ApiProperty()
   @IsInt()
   state: number;
 
+  @ApiProperty()
   @IsInt()
   totalPrice: number;
 
+  @ApiProperty()
   @IsString()
   createdAt: string;
 
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => OrderItem)
-  orderItems: IOrderItem[];
+  @ApiProperty()
+  orderItems: Array<IOrderItem>;
 }

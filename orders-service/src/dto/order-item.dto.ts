@@ -1,6 +1,6 @@
 import { IsString, IsInt } from 'class-validator';
 
-export class OrderItem {
+export class IOrderItem {
   @IsString()
   sku: number;
 
