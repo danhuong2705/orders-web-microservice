@@ -32,7 +32,11 @@ export class OrdersService {
     return order;
   }
   async updateOrderState(orderId: string, state: ORDER_STATE): Promise<Order> {
-    if (state === ORDER_STATE.CANCELLED || state === ORDER_STATE.DELIVERED) {
+    const order = await this.orderModel.findOne({ orderId });
+    if (
+      order.state === ORDER_STATE.CANCELLED ||
+      order.state === ORDER_STATE.DELIVERED
+    ) {
       throw new BadRequestException('Can not update order');
     }
     return this.orderModel.findOneAndUpdate(
