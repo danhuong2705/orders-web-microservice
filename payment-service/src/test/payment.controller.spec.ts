@@ -2,7 +2,6 @@ import { Test } from '@nestjs/testing';
 import { PaymentController } from '../payment/payment.controller';
 import { PAYMENT_STATE } from '../contants/payment.constants';
 import { PaymentService } from '../payment/payment.service';
-import { HttpStatus } from '@nestjs/common';
 
 describe('PaymentController', () => {
   let paymentController: PaymentController;
