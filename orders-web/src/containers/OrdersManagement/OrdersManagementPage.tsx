@@ -20,8 +20,8 @@ const OrdersManagementPage: React.FC = () => {
 
   const getOrderList = async () => {
     await orderSerice.getListOrder().then((res: any) => {
-      if (res && res.data) {
-        setlistOrder(res.data);
+      if (res && !!res.length) {
+        setlistOrder(res);
       }
     });
   };

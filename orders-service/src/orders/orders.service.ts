@@ -1,13 +1,9 @@
 import { Model } from 'mongoose';
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateOrderDto } from '../dto/create-order.dto';
-import { OrderDocument, Order } from '../schemas/order.schema';
-import { ORDER_STATE } from '../constants/orderState.constants';
+import { OrderDocument, Order } from './order.schema';
+import { ORDER_STATE } from '../constants/orders.constants';
 @Injectable()
 export class OrdersService {
   constructor(
@@ -15,8 +11,8 @@ export class OrdersService {
     private orderModel: Model<OrderDocument>,
   ) {}
 
-  async getOrderList(): Promise<Order[]> {
-    return await this.orderModel.find().exec();
+  getOrderList(): Promise<Order[]> {
+    return this.orderModel.find().exec();
   }
 
   async createOrder(createOrder: CreateOrderDto): Promise<Order> {
@@ -25,20 +21,9 @@ export class OrdersService {
   }
 
   async getOrderDetail(orderId: string): Promise<Order> {
-    const order = await this.orderModel.findOne({ orderId });
-    if (!order) {
-      throw new NotFoundException('Order not found');
-    }
-    return order;
+    return await this.orderModel.findOne({ orderId });
   }
   async updateOrderState(orderId: string, state: ORDER_STATE): Promise<Order> {
-    const order = await this.orderModel.findOne({ orderId });
-    if (
-      order.state === ORDER_STATE.CANCELLED ||
-      order.state === ORDER_STATE.DELIVERED
-    ) {
-      throw new BadRequestException('Can not update order');
-    }
     return this.orderModel.findOneAndUpdate(
       { orderId },
       { $set: { state: state } },

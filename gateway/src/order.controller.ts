@@ -1,100 +1,73 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
+  HttpStatus,
   Inject,
   Logger,
+  NotFoundException,
   Param,
   Post,
   Put,
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { ORDER_STATE, PAYMENT_STATE } from './constants';
+import {
+  CREATE_ORDER_MSG_PARTTEN,
+  GET_ORDER_DETAIL_MSG_PARTTEN,
+  GET_ORDER_LIST_MSG_PARTTEN,
+  UPDATE_ORDER_MSG_PARTTEN,
+} from './constants';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
-import {
-  IOrderListResponse,
-  IOrderResponse,
-} from './interfaces/order.interface';
 
 @Controller('api/orders')
 export class OrderController {
   constructor(
     @Inject('ORDERS_SERVICE') private readonly ordersClient: ClientProxy,
-    @Inject('PAYMENT_SERVICE') private readonly paymentClient: ClientProxy,
   ) {}
   logger = new Logger('gateway');
   async onApplicationBootstrap() {
     await this.ordersClient.connect();
   }
   @Post()
-  async createOrder(
-    @Body() createOrderDto: CreateOrderDto,
-  ): Promise<IOrderResponse> {
-    const createdOrder: IOrderResponse = await this.ordersClient
-      .send('create-order', createOrderDto)
+  async createOrder(@Body() createOrderDto: CreateOrderDto) {
+    const createdOrder = await this.ordersClient
+      .send(CREATE_ORDER_MSG_PARTTEN, createOrderDto)
       .toPromise();
-
-    const paymentResult = await this.paymentClient
-      .send('verify-order', createdOrder.data.orderId)
-      .toPromise();
-
-    const updatedOrder: IOrderResponse = await this.ordersClient
-      .send('update-order', {
-        orderId: createdOrder.data.orderId,
-        state:
-          paymentResult.data === PAYMENT_STATE.CONFIRMED
-            ? ORDER_STATE.CONFIRMED
-            : ORDER_STATE.CANCELLED,
-      })
-      .toPromise();
-    return {
-      status: updatedOrder.status,
-      errors: updatedOrder.errors,
-      data: updatedOrder.data,
-      message: updatedOrder.message,
-    };
+    return createdOrder;
   }
   @Put(':orderId')
   async updateOrderState(
     @Param('orderId') orderId: string,
     @Body() updateOrderDto: UpdateOrderDto,
-  ): Promise<IOrderResponse> {
-    const updatedOrder: IOrderResponse = await this.ordersClient
-      .send('update-order', { orderId: orderId, state: updateOrderDto.state })
+  ) {
+    const res = await this.ordersClient
+      .send(UPDATE_ORDER_MSG_PARTTEN, {
+        orderId: orderId,
+        state: updateOrderDto.state,
+      })
       .toPromise();
-    return {
-      status: updatedOrder.status,
-      errors: updatedOrder.errors,
-      data: updatedOrder.data,
-      message: updatedOrder.message,
-    };
+    this.logger.log(res);
+    if (res.status === HttpStatus.BAD_REQUEST) throw new BadRequestException();
+    if (res.status === HttpStatus.NOT_FOUND) throw new NotFoundException();
+    return res;
   }
   @Get(':orderId')
-  async getOrderDetail(
-    @Param('orderId') orderId: string,
-  ): Promise<IOrderResponse> {
-    const orderDetail: IOrderResponse = await this.ordersClient
-      .send('order-detail', orderId)
+  async getOrderDetail(@Param('orderId') orderId: string) {
+    const order = await this.ordersClient
+      .send(GET_ORDER_DETAIL_MSG_PARTTEN, orderId)
       .toPromise();
-    return {
-      status: orderDetail.status,
-      errors: orderDetail.errors,
-      data: orderDetail.data,
-      message: orderDetail.message,
-    };
+    if (!order) {
+      throw new NotFoundException('order not found');
+    }
+    return order;
   }
 
   @Get()
   async getOrderList() {
-    const orders: IOrderListResponse = await this.ordersClient
-      .send('order-list', true)
+    return await this.ordersClient
+      .send(GET_ORDER_LIST_MSG_PARTTEN, true)
       .toPromise();
-    return {
-      status: orders.status,
-      errors: orders.errors,
-      data: orders.data,
-      message: orders.message,
-    };
   }
 }

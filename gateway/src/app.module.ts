@@ -20,14 +20,7 @@ import { OrderController } from './order.controller';
       },
       inject: [],
     },
-    {
-      provide: 'PAYMENT_SERVICE',
-      useFactory: () => {
-        const paymentServiceOptions = configuration().paymentService as any;
-        return ClientProxyFactory.create(paymentServiceOptions);
-      },
-      inject: [],
-    },
+    
   ],
 })
 export class AppModule implements NestModule {

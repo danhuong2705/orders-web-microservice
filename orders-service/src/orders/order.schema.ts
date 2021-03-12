@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IOrderItem } from '../interfaces/orderItem.interface';
 import { Document } from 'mongoose';
-import { ORDER_STATE } from '../constants/orderState.constants';
+import { ORDER_STATE } from '../constants/orders.constants';
 
 export type OrderDocument = Order & Document;
 @Schema()

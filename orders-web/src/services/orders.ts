@@ -1,7 +1,8 @@
+import configuaration from "../config/configuaration";
 import { ORDER_STATE } from "../contansts";
 import { TOKEN } from "../contansts/data-dummy";
 
-const BASE_URL = process.env.REACT_APP_BASE_API_URL;
+const BASE_URL = configuaration().baseURL;
 const createOrder = async (data: any) => {
   const res = await fetch(`${BASE_URL}/api/orders`, {
     method: "POST",

@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PaymentController = void 0;
 const common_1 = require("@nestjs/common");
-const payment_service_1 = require("../services/payment.service");
+const payment_service_1 = require("./payment.service");
 const microservices_1 = require("@nestjs/microservices");
 const payment_constants_1 = require("../contants/payment.constants");
 let PaymentController = class PaymentController {

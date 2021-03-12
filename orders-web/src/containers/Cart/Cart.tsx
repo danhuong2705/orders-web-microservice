@@ -54,7 +54,7 @@ const CartPage: React.FC = () => {
   const createOrder = async () => {
     const newOrder = cookNewOrder(cartContext.products, cartContext.totalPrice);
     const res = await orderService.createOrder(newOrder);
-    if (res && res.data) {
+    if (res && !res.statusCode) {
       await toast({
         title: "Created order successfully",
         status: "success",

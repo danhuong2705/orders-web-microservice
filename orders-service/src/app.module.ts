@@ -2,7 +2,7 @@ import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import configuration from './config/configuration';
-import { OrdersModule } from './modules/orders.module';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [

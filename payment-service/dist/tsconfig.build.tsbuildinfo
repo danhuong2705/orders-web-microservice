@@ -1177,12 +1177,12 @@
         "affectsGlobalScope": false
       },
       "../src/contants/payment.constants.ts": {
-        "version": "5451cc194b4fa81df6d810d2aa56b2fb7dc1d6cb7f020f2a6d01a5e37b1edf99",
-        "signature": "162524c92f8889c74f73addd7ca2eafb5863f0a4ace44578e680660e05f1ccd2",
+        "version": "330b74520febc4bf32063fc108facef11a3721e9c12dbf55d44ed1d835d67056",
+        "signature": "96d0f5a8b7c12968efca6043ff4cefd48ffd7e79ff416ee454c2f90755f042a3",
         "affectsGlobalScope": false
       },
-      "../src/services/payment.service.ts": {
-        "version": "95bcbed47018c5a3b7404edf661441ac5fcbf18630be9b8e09f023c6dddd3e3b",
+      "../src/payment/payment.service.ts": {
+        "version": "7e2f6bf2f624779bc557d83b82bbba90bdee28aeb1d216258e8f0b175531bcb3",
         "signature": "274d3bad7e0fd3cc41cbafabf13d073b2c486c580c890a41fdda2e46012f38e0",
         "affectsGlobalScope": false
       },
@@ -1961,23 +1961,23 @@
         "signature": "ff3a45e62d966d8cd7735588a451801ff62aa34060e5124457c99e2220f9d1d3",
         "affectsGlobalScope": false
       },
-      "../src/controllers/payment.controller.ts": {
-        "version": "7b76c129e3b6eee529a7b00d7266496bc41d6580a6f76fa2250f54fedbd0f865",
-        "signature": "23c6d378ea3ecf63fb6658b4b2e78be0efb0da5eeb441d7fae28ab5c63d432c8",
+      "../src/payment/payment.controller.ts": {
+        "version": "4628ca7a4adaa53b6823d0d0e563c8478f20100afc60f11c1e018c0aab160d1b",
+        "signature": "c3ba95b611b25adb20bc0d578037f2d4e2453d5b0e32df3695ca182d1901dd3b",
         "affectsGlobalScope": false
       },
-      "../src/modules/payment.module.ts": {
-        "version": "02f0c258b331623dbeac3b069edb4ea4f1864bc6635c6569d419be9adad7fd4d",
+      "../src/payment/payment.module.ts": {
+        "version": "08f19f400407681479f54c5cd40bd5658ca2087a858d317a7065d49d640a1d1a",
         "signature": "1700474b35ff2b77850d138342e908104f4724ee0d3b17ea8d6d9ccc3d14dad5",
         "affectsGlobalScope": false
       },
       "../src/app.module.ts": {
-        "version": "549258aa95fb84fd08ac13c4cc9bc6b31eaffef94336359dcbd714d3dbc66877",
+        "version": "6eaa263d290ea240e353a99aeab8dec6098dfef4f17a077993fca46a82aab8f4",
         "signature": "9fc7f7b6ad854404973b8cba8e6d883f758237991968e9a3965d716d46f1da88",
         "affectsGlobalScope": false
       },
       "../src/config/configuration.ts": {
-        "version": "1ab9b50b3f0be8bc86c0c3cfe3760fa68b5a80f36857621686d849fc0353c616",
+        "version": "592c21f54178232a80632fc8b6e277dc8c8f092608dda9661f79e6f0f7e57be7",
         "signature": "52810489428431e79407a4494e723d16a8c4c18acf58cba592eda4fc99edf1b6",
         "affectsGlobalScope": false
       },
@@ -3967,12 +3967,7 @@
       ],
       "../src/app.module.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
-        "../src/modules/payment.module.ts"
-      ],
-      "../src/controllers/payment.controller.ts": [
-        "../node_modules/@nestjs/common/index.d.ts",
-        "../node_modules/@nestjs/microservices/index.d.ts",
-        "../src/services/payment.service.ts"
+        "../src/payment/payment.module.ts"
       ],
       "../src/main.ts": [
         "../node_modules/@nestjs/core/index.d.ts",
@@ -3980,12 +3975,18 @@
         "../src/app.module.ts",
         "../src/config/configuration.ts"
       ],
-      "../src/modules/payment.module.ts": [
+      "../src/payment/payment.controller.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
-        "../src/controllers/payment.controller.ts",
-        "../src/services/payment.service.ts"
+        "../node_modules/@nestjs/microservices/index.d.ts",
+        "../src/contants/payment.constants.ts",
+        "../src/payment/payment.service.ts"
       ],
-      "../src/services/payment.service.ts": [
+      "../src/payment/payment.module.ts": [
+        "../node_modules/@nestjs/common/index.d.ts",
+        "../src/payment/payment.controller.ts",
+        "../src/payment/payment.service.ts"
+      ],
+      "../src/payment/payment.service.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
         "../src/contants/payment.constants.ts"
       ]
@@ -5639,12 +5640,11 @@
       "../node_modules/rxjs/internal/util/pipe.d.ts": [
         "../node_modules/rxjs/internal/types.d.ts"
       ],
-      "../src/controllers/payment.controller.ts": [
-        "../node_modules/@nestjs/common/index.d.ts",
+      "../src/payment/payment.controller.ts": [
         "../src/contants/payment.constants.ts",
-        "../src/services/payment.service.ts"
+        "../src/payment/payment.service.ts"
       ],
-      "../src/services/payment.service.ts": [
+      "../src/payment/payment.service.ts": [
         "../src/contants/payment.constants.ts"
       ]
     },

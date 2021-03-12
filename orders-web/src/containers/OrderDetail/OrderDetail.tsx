@@ -29,6 +29,7 @@ const Price = styled.div`
 const EmptyState = styled.div`
   font-weight: bold;
   font-size: 1.5rem;
+  margin-top: 96px;
 `;
 const Title = styled.div`
   font-size: 2rem;
@@ -60,8 +61,8 @@ const OrderDetailPage: React.FC = (props: any) => {
     setLoading(true);
     await orderSerice.getOrderDetail(orderId).then((res) => {
       setLoading(false);
-      if (res && res.data) {
-        setOrderDetail(res.data);
+      if (res && !res.statusCode) {
+        setOrderDetail(res);
       }
     });
   };
@@ -71,7 +72,7 @@ const OrderDetailPage: React.FC = (props: any) => {
         orderDetail?.orderId,
         ORDER_STATE.CANCELLED
       );
-      if (res && res.data) {
+      if (res && !res.statusCode) {
         await toast({
           title: "Cancelled order successfully",
           status: "success",
@@ -83,6 +84,7 @@ const OrderDetailPage: React.FC = (props: any) => {
       }
     }
   };
+  console.log(orderDetail);
   useEffect(() => {
     getOrderDetail(props.match.params.orderId);
     const orderDetailInterval = setInterval(

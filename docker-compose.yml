@@ -23,7 +23,7 @@ services:
     container_name: payment-service
     depends_on:
       - orders-service
-    hostname: ${PAYMENT_SERVICE_HOST}
+    hostname: payment-service
     ports:
       - "9001:9001"
 
@@ -33,7 +33,7 @@ services:
     depends_on:
       - mongodb
       - redis
-    hostname: ${ORDERS_SERVICE_HOST}
+    hostname: orders-service
     restart: always
     ports:
       - "9000:9000"

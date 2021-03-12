@@ -1,15 +1,15 @@
 import { Test } from '@nestjs/testing';
-import { OrdersProcessor } from '../processors/orders.processor';
-import { OrdersController } from '../controllers/orders.controller';
-import { OrdersService } from '../services/orders.service';
+import { OrdersProcessor } from '../orders/orders.processor';
+import { OrdersController } from '../orders/orders.controller';
+import { OrdersService } from '../orders/orders.service';
 import { createdOrder } from './___mocks___';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Order, OrderSchema } from '../schemas/order.schema';
+import { Order, OrderSchema } from '../orders/order.schema';
 import { BullModule } from '@nestjs/bull';
-import { DatabaseModule } from '../modules/database.module';
-import { HttpModule } from '@nestjs/common';
-import { OrdersModule } from '../modules/orders.module';
-import { ORDER_STATE, TOKEN } from '../constants/orderState.constants';
+import { DatabaseModule } from '../datatabase/database.module';
+import { ORDER_STATE } from '../constants/orders.constants';
+import configuration from '../config/configuration';
+import { ClientProxyFactory } from '@nestjs/microservices';
 
 describe('OrdersModule', () => {
   let ordersController: OrdersController;
@@ -34,11 +34,20 @@ describe('OrdersModule', () => {
           name: 'orders',
         }),
         DatabaseModule,
-        HttpModule,
-        OrdersModule,
       ],
       controllers: [OrdersController],
-      providers: [OrdersService, OrdersProcessor],
+      providers: [
+        OrdersService,
+        OrdersProcessor,
+        {
+          provide: 'PAYMENT_SERVICE',
+          useFactory: () => {
+            const paymentServiceOptions = configuration().paymentService as any;
+            return ClientProxyFactory.create(paymentServiceOptions);
+          },
+          inject: [],
+        },
+      ],
     }).compile();
 
     ordersService = moduleRef.get<OrdersService>(OrdersService);
@@ -48,26 +57,29 @@ describe('OrdersModule', () => {
     it('should return with valid orderId', async () => {
       const newOrder = await ordersController.createOrder(createdOrder);
 
-      expect(newOrder.data.orderId).toEqual(createdOrder.orderId);
+      expect(newOrder.orderId).toEqual(createdOrder.orderId);
     });
   });
   describe('OrderController: getDetailOrder', () => {
     it('should return with valid orderId', async () => {
       const newOrder = await ordersController.createOrder(createdOrder);
-      const res = await ordersController.getOrderDetail(newOrder.data.orderId);
-      expect(res.data.orderId).toEqual(newOrder.data.orderId);
+      const res = await ordersController.getOrderDetail(newOrder.orderId);
+      expect(res.orderId).toEqual(newOrder.orderId);
     });
   });
   describe('OrderController: update', () => {
     it('Should return the order with valid id and cancel state', async () => {
       const newOrder = await ordersController.createOrder(createdOrder);
       const cancelledOrder = await ordersController.updateOrderState({
-        orderId: newOrder.data.orderId,
+        orderId: newOrder.orderId,
         state: ORDER_STATE.CANCELLED,
       });
-
-      expect(cancelledOrder.data.orderId).toEqual(newOrder.data.orderId);
-      expect(cancelledOrder.data.state).toEqual(ORDER_STATE.CANCELLED);
+      if (cancelledOrder) {
+        //@ts-ignore
+        expect(cancelledOrder.orderId).toEqual(newOrder.orderId);
+        //@ts-ignore
+        expect(cancelledOrder.state).toEqual(ORDER_STATE.CANCELLED);
+      }
     });
   });
 });
